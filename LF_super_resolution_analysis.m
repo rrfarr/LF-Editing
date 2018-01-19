@@ -13,7 +13,7 @@ warning off;
 %--------------------------------------------------------------------------
 % SIMULATION CONFIGURATION
 %--------------------------------------------------------------------------
-sr_method   = 'bicubic';  % Super-resolution methods to consider. For now the 
+sr_method   = 'vdsr';  % Super-resolution methods to consider. For now the 
                         % simulation will consider 'bicubic', 'srcnn' and 'vdsr'
                         
 proc_method = 1;        % This specifies if we are going to compute super
