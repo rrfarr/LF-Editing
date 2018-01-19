@@ -13,7 +13,7 @@ warning off;
 %--------------------------------------------------------------------------
 % SIMULATION CONFIGURATION
 %--------------------------------------------------------------------------
-sr_method   = 'bicubic';  % Super-resolution methods to consider. For now the 
+sr_method   = 'bicu';  % Super-resolution methods to consider. For now the 
                         % simulation will consider 'bicubic', 'srcnn' and 'vdsr'
                         
 proc_method = 1;        % This specifies if we are going to compute super
@@ -99,7 +99,7 @@ for n = 1:N
     lf_name = lf_names{n};
     
     out_img_filename = [out_img_foldername,lf_name,'.bmp'];
-    out_LF_filename  = [out_LF_foldername,lf_name,'.mat'];
+    out_lf_filename  = [out_LF_foldername,lf_name,'.mat'];
     
     % Derive the folder containing the light field
     dataset_foldername = sprintf('../LF-DATASET/%s/',dataset);
