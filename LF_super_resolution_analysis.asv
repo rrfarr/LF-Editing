@@ -8,53 +8,25 @@ function LF_super_resolution_analysis()
 clc; close all;
 
 addpath('MATLAB/light_field/');
+addpath('MATLAB/superresolution/');
+
 warning off;
 
 %--------------------------------------------------------------------------
 % SIMULATION CONFIGURATION
 %--------------------------------------------------------------------------
-sr_method   = 'bicu';  % Super-resolution methods to consider. For now the 
+sr_method   = 'bicubic';  % Super-resolution methods to consider. For now the 
                         % simulation will consider 'bicubic', 'srcnn' and 'vdsr'
-                        
-proc_method = 1;        % This specifies if we are going to compute super
-% proc_method = 2       % resolution on each image separately (1) or else 
-                        % restoring the principal basis only (2)
                         
 mf = 3;                 % Magnification factor
 
-lf_names = {'Bikes', ...
-    'Bench_in_Paris' ...
-    'Fountain_&_Bench', ...
-    'Friends_1', ...
-    'Sphynx', ...
-    'Bee_2', ...
-    'Duck', ...
-    'Fruits', ...
-    'Rose', ...
-    'Mini', ...
-    'Chess',...
-    'Bunny',...
-    'Lego Bulldozer', ...
-    'Lego Truck', ...
-    'Lego Knights'
-    };
-datasets = {'EPFL', ...
-    'EPFL', ...
-    'EPFL', ...
-    'EPFL', ...
-    'EPFL', ...
-    'INRIA', ...
-    'INRIA', ...
-    'INRIA', ...
-    'INRIA', ...
-    'INRIA', ...
-    'STANFORD', ...
-    'STANFORD', ...
-    'STANFORD', ...
-    'STANFORD', ...
-    'STANFORD'
-    };
-if strcmp(sr_method,'srcnn')
+% Load the light fields to be processed in this simulation
+[lf_names, datasets] = read_configuration('simulation.cfg');
+
+% Determine the processing method
+proc_method = get_sr_processing_method(sr_method);
+
+if strcmp(sr_method,'srcnn') || strcmp(sr_method,'lf_srcnn')
     addpath('MATLAB/superresolution/srcnn/');
 elseif strcmp(sr_method,'vdsr')
     addpath('MATLAB/superresolution/vdsr/');
@@ -63,17 +35,17 @@ end
 N = size(lf_names,2);
 
 fprintf('--------------------------------------------------------------\n');
-if proc_method == 1 && strcmp(sr_method,'srcnn')
+if strcmp(proc_method,'independentSR') && (strcmp(sr_method,'srcnn') || (strcmp(sr_method,'lf_srcnn')))
     fprintf('Evaluating the performance of SRCNN\n');
     out_filename = sprintf('RESULTS/superresolution/x%d/srcnn.csv',mf);
     out_img_foldername = sprintf('RESULTS/superresolution/x%d/centre_view/srcnn/',mf);
     out_LF_foldername  = sprintf('RESULTS/superresolution/x%d/LF/srcnn/',mf);
-elseif proc_method == 1 && strcmp(sr_method,'bicubic')
+elseif strcmp(proc_method,'independentSR') && strcmp(sr_method,'bicubic')
     fprintf('Evaluating the performance of Bicubic interpolation\n');
-    out_filename = sprintf('RESULTS/superresolution/x%d/bicubic.csv',mf);;
+    out_filename = sprintf('RESULTS/superresolution/x%d/bicubic.csv',mf);
     out_img_foldername = sprintf('RESULTS/superresolution/x%d/centre_view/bicubic/',mf);
     out_LF_foldername  = sprintf('RESULTS/superresolution/x%d/LF/bicubic/',mf);
-elseif proc_method == 1 && strcmp(sr_method,'vdsr')
+elseif strcmp(proc_method,'independentSR') && strcmp(sr_method,'vdsr')
     fprintf('Evaluating the performance of VDSR\n');
     out_filename = sprintf('RESULTS/superresolution/x%d/vdsr.csv',mf);
     out_img_foldername = sprintf('RESULTS/superresolution/x%d/centre_view/vdsr/',mf);
@@ -99,7 +71,7 @@ for n = 1:N
     lf_name = lf_names{n};
     
     out_img_filename = [out_img_foldername,lf_name,'.bmp'];
-    out_lf_filename  = [out_LF_foldername,lf_name,'.mat'];
+    out_LF_filename  = [out_LF_foldername,lf_name,'.mat'];
     
     % Derive the folder containing the light field
     dataset_foldername = sprintf('../LF-DATASET/%s/',dataset);
@@ -122,11 +94,12 @@ for n = 1:N
     % Generate the low-resolution light field
     LR_LF = lf_downsample(HR_LF,mf);
     
-    % Initialize the super-resolved light field
-    SR_LF = zeros(size(LR_LF),'uint8');
-    if proc_method == 1
+    if strcmp(proc_method,'independentSR')
         % The light field will be restored one sub-aperture image at a time
         % and will not exploit the light field structure
+        if strcmp(sr_method,'srcnn') || strcmp(sr_method,'lf_srcnn')
+            SR_LF = lf_srcnn(LR_LF);
+            
         for u = 1:size(LR_LF,4)
             for v = 1:size(LR_LF,5)
                 % Extract the current sub-aperture image
@@ -182,7 +155,7 @@ for n = 1:N
                 SR_LF(:,:,:,u,v) = Isr;
             end
         end
-    elseif proc_method == 2
+    elseif strcmp(proc_method,'coherentSR')
     end
     
     % Extract the centre view
@@ -202,4 +175,37 @@ for n = 1:N
 end
 fclose('all');
 
+function SR_LF = lf_srcnn(LR_LF,mf)
+addpath('MATLAB\matconvnet\');
+addpath('MATLAB\matconvnet\matlab\');
+
+%run matconvnet/matlab/vl_setupnn;
+run vl_setupnn
+
+model_filename = sprintf('MATLAB\\superresolution\\srcnn\\mf_%d_model.mat',mf);
+load(model_filename);
+
+% Test that the convolution function works properly
+try
+    vl_nnconv(single(1),single(1),[]) ;
+catch
+    warning('VL_NNCONV() does not seem to be compiled. Trying to compile it now.') ;
+    vl_compilenn('enableGpu', opts.useGpu, 'verbose', opts.verbose, ...
+        'enableImreadJpeg', false) ;
+end
+
+% Initialize the super-resolved light field
+SR_LF = zeros(size(LR_LF),'uint8');
+
+for u = 1:size(LR_LF,4)
+    for v = 1:size(LR_LF,5)
+        % Extract the current sub-aperture image
+        Ilr = LR_LF(:,:,:,u,v);
+        % Super-resolve the current sub-aperture image
+        Isr = srcnn(Ilr,net);
+        
+        % Put the restored sub-aperture image in the restored light field
+        SR_LF(:,:,:,u,v) = Isr;
+    end
+end
 
