@@ -15,7 +15,7 @@ warning off;
 %--------------------------------------------------------------------------
 % SIMULATION CONFIGURATION
 %--------------------------------------------------------------------------
-sr_method   = 'bicubic';  % Super-resolution methods to consider. For now the 
+sr_method   = 'vdsr';  % Super-resolution methods to consider. For now the 
                         % simulation will consider 'bicubic', 'srcnn' and 'vdsr'
                         
 mf = 3;                 % Magnification factor
@@ -102,7 +102,7 @@ for n = 1:N
         elseif strcmp(sr_method,'srcnn') || strcmp(sr_method,'lf_srcnn')
             SR_LF = lf_srcnn(LR_LF,mf);
         elseif strcmp(sr_method,'vdsr')
-            SR_LF = lf_vdsr(LR_LF);
+            SR_LF = lf_vdsr(LR_LF,mf);
         end
             
     elseif strcmp(proc_method,'coherentSR')
