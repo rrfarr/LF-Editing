@@ -1,4 +1,4 @@
-function psnr_v = quality_analysis(HR_LF, SR_LF)
+function [psnr_v,ssim_v] = quality_analysis(HR_LF, SR_LF)
 % This script is a simple script which evaluates the quality of the
 % super-resolved lightfield. This function returns two quality metrics PSNR
 % and SSIM
@@ -10,6 +10,7 @@ N = size(HR_LF,4)*size(HR_LF,5);
 
 % Initialize the quality arrays to contain a quality per sub-aparutre image
 psnr_v = zeros(N,1); 
+ssim_v = zeros(N,1);
 
 HR_LF = uint8(HR_LF); SR_LF = uint8(SR_LF);
 k = 1;
@@ -27,13 +28,15 @@ for n1 = 1:size(HR_LF,4)
             
             % Compute the ssim quality metric
             psnr_v(k) = psnr(I1,I2);
+            ssim_v(k) = ssim(I1,I2);
         end
         k = k + 1;
     end
 end
 
 psnr_v(psnr_v == 0) = [];
-
+ssim_v(ssim_v == 0) = [];
 % Average the quality metrics to get a unique metric for all sub-aparture
 % images
 psnr_v = mean(psnr_v);
+ssim_v = mean(ssim_v);

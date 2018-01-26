@@ -175,11 +175,11 @@ for n = 1:N
     end
     
     % Compute the psnr evaluation
-    psnr_val = quality_analysis(HR_LF, SR_LF);
+    [psnr_val,ssim_val] = quality_analysis(HR_LF, SR_LF);
     
-    fprintf('%s, %s, %0.4f\n',lf_name,dataset,psnr_val);
+    fprintf('%s, %s, %0.4f, %0.4f\n',lf_name,dataset,psnr_val, ssim_val);
     if out_flag
-        fprintf(fid,'%s, %s, %0.4f\n',lf_name,dataset,psnr_val);
+        fprintf(fid,'%s, %s, %0.4f, %0.4f\n',lf_name,dataset,psnr_val, ssim_val);
     
         % Save the restored light field
         save(out_LF_filename,'SR_LF');
