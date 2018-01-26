@@ -50,6 +50,7 @@ function LF_super_resolution_analysis(sr_method,mf,out_flag)
 
 clc; close all;
 
+addpath('MATLAB/');
 addpath('MATLAB/light_field/');
 addpath('MATLAB/superresolution/');
 
@@ -99,6 +100,11 @@ elseif strcmp(sr_method,'bm_pca_rr')
     out_filename = sprintf('RESULTS/superresolution/x%d/bm_pca_rr.csv',mf);
     out_img_foldername = sprintf('RESULTS/superresolution/x%d/center_view/bm_pca_rr/',mf);
     out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/bm_pca_rr/',mf);
+elseif strcmp(sr_method,'pblfsr_srcnn')
+    fprintf('Evaluating the performance of PBLFSR-CNN\n');
+    out_filename = sprintf('RESULTS/superresolution/x%d/pblfsr_srcnn.csv',mf);
+    out_img_foldername = sprintf('RESULTS/superresolution/x%d/center_view/pblfsr_srcnn/',mf);
+    out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/pblfsr_srcnn/',mf);
 end
 fprintf('--------------------------------------------------------------\n');
 
@@ -164,6 +170,10 @@ for n = 1:N
     elseif strcmp(sr_method,'bm_pca_rr')
         % Super-resolution using BM+PCA+RR
         SR_LF = bm_pca_rr_parent(LR_LF,mf);
+    elseif strcmp(sr_method,'pblfsr_srcnn')
+        % Super-resolve using principal basis light field super resolution
+        % using SRCNN
+        SR_LF = pb_lfsr_srcnn(LR_LF,mf,lf_name);
     end
             
     % Extract the centre view
