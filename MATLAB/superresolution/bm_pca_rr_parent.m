@@ -1,5 +1,5 @@
-function SR_LF = pca_rr_parent(LR_LF,mf)
-% The pca_rr_parent is the parent function that is used to configure the
+function SR_LF = bm_pca_rr_parent(LR_LF,mf)
+% The bm_pca_rr_parent is the parent function that is used to configure the
 % pca_rr light field super-resolution. This implementation is based on the
 % work published in
 %
@@ -33,13 +33,13 @@ param.patch_size = 10;   % Patch size
 param.Nl         = 500;  % Dimension of the low-resolution patch volume
 param.Nh         = 500;  % Dimension of the high-resolution patch volume
 param.Npts       = 2000; % Number of points from each light field
-param.window_size= 0;    % Search window size 0 for pca_rr
+param.window_size= 8;    % Search window size 0 for pca_rr
 param.lambda     = 1E-6; % Ridge Regression regularization paramete
 param.overlap    = floor(param.patch_size/3);
 %--------------------------------------------------------------------------
 % Derive the filename where the pca basis will be stored
 pca_foldername = 'DATA/superresolution/pca_rr/';
-pca_filename = sprintf('%spca_basis_x%d.mat',pca_foldername, mf);
+pca_filename = sprintf('%sbm_pca_basis_x%d.mat',pca_foldername, mf);
 if ~exist(pca_filename,'file')
     if ~exist(pca_foldername,'dir')
         % Create the foldername where to store the model
@@ -48,11 +48,11 @@ if ~exist(pca_filename,'file')
     
     % Get the url where the file is stored
     if mf == 2
-        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=1&id=1H3UWpgieB3CfBqwnIKjOaOy4wwmOAs2q&export=download';
+        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=1&id=1SP0kGzN7kWRh-ZM2lAI_LXRQB51m2VLf&export=download';
     elseif mf == 3
-        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=1&id=1IbDxsXJHY_4Z3P-xvC0shejFkMxT_A00&export=download';
+        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=1&id=1hQH-uIbiDxOIHAWMRRtuErmdM-XWeZTl&export=download';
     elseif mf == 4
-        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=1&id=1zK4MfqyHEA6JMHtklROE8eqhGxO3pmTj&export=download';
+        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=1&id=1uBu01qHx_4quBhUh9OKjVOnrFfuJ0EqW&export=download';
     end
     % Download the required pca basis
     urlwrite(url,pca_filename);

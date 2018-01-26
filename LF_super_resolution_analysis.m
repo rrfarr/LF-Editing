@@ -20,6 +20,10 @@ function LF_super_resolution_analysis(sr_method,mf,out_flag)
 %                   - 'pca_rr' - this method applies the pca_rr published
 %                                in [4] - super-resolves patch volumes
 %
+%                   - 'bm_pca_rr' - this method applies the pm_pca_rr
+%                                   published in [4] - super-resolves 
+%                                   patch volumes
+%
 %        mf: numeric value that stands for the magnification factor that
 %        the method has to super-resolve
 %
@@ -90,6 +94,11 @@ elseif strcmp(sr_method,'pca_rr')
     out_filename = sprintf('RESULTS/superresolution/x%d/pca_rr.csv',mf);
     out_img_foldername = sprintf('RESULTS/superresolution/x%d/center_view/pca_rr/',mf);
     out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/pca_rr/',mf);
+elseif strcmp(sr_method,'bm_pca_rr')
+    fprintf('Evaluating the performance of BM+PCA+RR\n');
+    out_filename = sprintf('RESULTS/superresolution/x%d/bm_pca_rr.csv',mf);
+    out_img_foldername = sprintf('RESULTS/superresolution/x%d/center_view/bm_pca_rr/',mf);
+    out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/bm_pca_rr/',mf);
 end
 fprintf('--------------------------------------------------------------\n');
 
@@ -152,6 +161,9 @@ for n = 1:N
     elseif strcmp(sr_method,'pca_rr')
         % Super-resolution using PCA+RR [4]
         SR_LF = pca_rr_parent(LR_LF,mf);
+    elseif strcmp(sr_method,'bm_pca_rr')
+        % Super-resolution using BM+PCA+RR
+        SR_LF = bm_pca_rr_parent(LR_LF,mf);
     end
             
     % Extract the centre view
