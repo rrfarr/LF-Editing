@@ -70,7 +70,7 @@ fprintf(repmat('\b', 1, lengthLastMsg));
 % Encode the principal basis to get the principal bases as an image
 [Ipb, param] = principal_basis_encoding(B_r(:,1), B_g(:,1), B_b(:,1),size(LR_LF_align));
 
---------------------------------------------------------------------------
+%--------------------------------------------------------------------------
 
 %--------------------------------------------------------------------------
 % SUPERRESOLUTION OF THE PRINCIPAL BASIS
