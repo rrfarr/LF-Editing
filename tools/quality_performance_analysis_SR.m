@@ -1,10 +1,10 @@
 function quality_performance_analysis_SR()
 
 clc; close all; clear all;
-
 %--------------------------------------------------------------------------
 % Configure the analysis
 %--------------------------------------------------------------------------
+addpath('MATLAB/');
 addpath('../MATLAB/general/');
 
 mf = 3; % magnification factor
@@ -55,6 +55,9 @@ for n = 1:Nfiles
     header{2+cell_id} = method;
     % Read the content of this file
     [lf_name, ds_name, psnr, ssim] = csv_read_SR_quality_file(fid);
+
+    psnr_cell(:,cell_id) = psnr;
+    ssim_cell(:,cell_id) = ssim;
     
     % Close the file
     fclose(fid);
@@ -70,22 +73,13 @@ end
 % Creat the xls filename
 xls_filename = [xls_foldername,'quality_analysis.xls'];
 
+xlswrite(xls_filename,header,'PSNR');
+xlswrite(xls_filename,lf_name,'PSNR',sprintf('A%d:A%d',2,1+length(lf_name)));
+xlswrite(xls_filename,ds_name,'PSNR',sprintf('B%d:B%d',2,1+length(lf_name)));
+xlswrite(xls_filename,psnr_cell,'PSNR',sprintf('C%d:%s%d',2,'C'+size(psnr_cell,2)-1,1+length(lf_name)));
 
-function [lf_name, ds_name, psnr, ssim] = csv_read_SR_quality_file(fid)
-
-k = 1;
-while ~feof(fid)
-    % Read a line from the csv file
-    line = fgetl(fid);
-    % Derive the index of comma
-    idx_comma = strfind(line,',');
-    lf_name{k} = line(1:idx_comma(1)-1);
-    ds_name{k} = line(idx_comma(1)+1:idx_comma(2)-1);
-    psnr(k)    = str2double(line(idx_comma(2)+1:idx_comma(3)-1));
-    ssim(k)    = str2double(line(idx_comma(3)+1:end));
-    k = k + 1;
-end
-
-
-
+xlswrite(xls_filename,header,'SSIM');
+xlswrite(xls_filename,lf_name,'SSIM',sprintf('A%d:A%d',2,1+length(lf_name)));
+xlswrite(xls_filename,ds_name,'SSIM',sprintf('B%d:B%d',2,1+length(lf_name)));
+xlswrite(xls_filename,ssim_cell,'SSIM',sprintf('C%d:%s%d',2,'C'+size(psnr_cell,2)-1,1+length(lf_name)));
 
