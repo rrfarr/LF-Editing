@@ -35,6 +35,15 @@ for n = 1:Nfiles
     elseif strcmp(method,'pca_rr')
         method  = 'PCA+RR';
         cell_id = 2;
+    elseif strcmp(method,'pblfsr_srcnn')
+        method = 'Proposed';
+        cell_id = 6;
+    elseif strcmp(method,'srcnn')
+        method = 'LF-SRCNN';
+        cell_id = 4;
+    elseif strcmp(method,'vdsr')
+        method = 'LF-VDSR';
+        cell_id = 5;
     else
         error('This method is not considered\n');
     end
