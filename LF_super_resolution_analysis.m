@@ -93,17 +93,17 @@ elseif  strcmp(sr_method,'vdsr')
 elseif strcmp(sr_method,'pca_rr')
     fprintf('Evaluating the performance of PCA+RR\n');
     out_filename = sprintf('RESULTS/superresolution/x%d/pca_rr.csv',mf);
-    out_img_foldername = sprintf('RESULTS/superresolution/x%d/center_view/pca_rr/',mf);
+    out_img_foldername = sprintf('RESULTS/superresolution/x%d/centre_view/pca_rr/',mf);
     out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/pca_rr/',mf);
 elseif strcmp(sr_method,'bm_pca_rr')
     fprintf('Evaluating the performance of BM+PCA+RR\n');
     out_filename = sprintf('RESULTS/superresolution/x%d/bm_pca_rr.csv',mf);
-    out_img_foldername = sprintf('RESULTS/superresolution/x%d/center_view/bm_pca_rr/',mf);
+    out_img_foldername = sprintf('RESULTS/superresolution/x%d/centre_view/bm_pca_rr/',mf);
     out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/bm_pca_rr/',mf);
 elseif strcmp(sr_method,'pblfsr_srcnn')
     fprintf('Evaluating the performance of PBLFSR-CNN\n');
     out_filename = sprintf('RESULTS/superresolution/x%d/pblfsr_srcnn.csv',mf);
-    out_img_foldername = sprintf('RESULTS/superresolution/x%d/center_view/pblfsr_srcnn/',mf);
+    out_img_foldername = sprintf('RESULTS/superresolution/x%d/centre_view/pblfsr_srcnn/',mf);
     out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/pblfsr_srcnn/',mf);
 end
 fprintf('--------------------------------------------------------------\n');

@@ -24,7 +24,7 @@ end
 % Use inverse warping to align all sub-aperture images to the centre view
 LR_LF_align = inverse_warping(LR_LF,u,v);
 
-clearvars LR_LF;
+%clearvars LR_LF;
 %--------------------------------------------------------------------------
 
 %--------------------------------------------------------------------------
@@ -140,7 +140,6 @@ SR_LF = forward_warping(SR_LF_align,u,v);
 
 % Specify the matrix completion method to be used here
 matrix_completion_method = 'LMaFit';
-
 
 % Inpaint the missing pixels using low-rank matrix completion
 SR_LF = low_rank_matrix_completion(SR_LF,LR_LF, matrix_completion_method,lf_name);
