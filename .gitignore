@@ -1,4 +1,4 @@
-/tools
+/proto
 /backup
 /MATLAB/matconvnet
 /RESULTS/superresolution/x2/LF
@@ -10,3 +10,6 @@
 temp.mat
 /MATLAB/optical_flow/SIFTFlow/
 /RESULTS/superresolution/x3/LF/
+/RESULTS/superresolution/x2/LF/
+/RESULTS/superresolution/x4/LF/
+/MATLAB/superresolution/pb_lfsr_srcnn.m
