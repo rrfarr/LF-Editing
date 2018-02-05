@@ -58,7 +58,7 @@ L = length(data);
 % set parameters
 tol = 1.25e-4;
 maxit = 500;
-iprint = 2;
+iprint = 0;
 Zfull = (L/(m*n) > 0.2 ) || k > .02*min(m,n) || m*n < 5e5;
 DoQR = true;
 est_rank = 1;
@@ -198,9 +198,9 @@ for iter = 1:maxit
     if mod(iter,10) == 1
         LF = (X*Y)';
         LF = uint8(round(reshape(LF,[sz(1),sz(2),size(LF,2)])));
-        figure(2);
-        imshow(LF(:,:,1));
-        pause(0.01);
+        %figure(2);
+        %imshow(LF(:,:,1));
+        %pause(0.01);
     end
 
     % update Z or S with the most recent alf

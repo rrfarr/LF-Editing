@@ -23,6 +23,10 @@ function LF_super_resolution_analysis(sr_method,mf,out_flag)
 %                   - 'bm_pca_rr' - this method applies the pm_pca_rr
 %                                   published in [4] - super-resolves 
 %                                   patch volumes
+%                   - 'pb-srcnn' - this method is the proposed method using
+%                                  SRCNN to restore the principal basis
+%                   - 'pb-vdsr'  - this method is the proposed method using
+%                                  VDSR to restore the principal basis
 %
 %        mf: numeric value that stands for the magnification factor that
 %        the method has to super-resolve
@@ -100,11 +104,16 @@ elseif strcmp(sr_method,'bm_pca_rr')
     out_filename = sprintf('RESULTS/superresolution/x%d/bm_pca_rr.csv',mf);
     out_img_foldername = sprintf('RESULTS/superresolution/x%d/centre_view/bm_pca_rr/',mf);
     out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/bm_pca_rr/',mf);
-elseif strcmp(sr_method,'pblfsr_srcnn')
-    fprintf('Evaluating the performance of PBLFSR-CNN\n');
-    out_filename = sprintf('RESULTS/superresolution/x%d/pblfsr_srcnn.csv',mf);
-    out_img_foldername = sprintf('RESULTS/superresolution/x%d/centre_view/pblfsr_srcnn/',mf);
-    out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/pblfsr_srcnn/',mf);
+elseif strcmp(sr_method,'pb-srcnn')
+    fprintf('Evaluating the performance of PB-SRCNN\n');
+    out_filename = sprintf('RESULTS/superresolution/x%d/pb-srcnn.csv',mf);
+    out_img_foldername = sprintf('RESULTS/superresolution/x%d/centre_view/pb-srcnn/',mf);
+    out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/pb-srcnn/',mf);
+elseif strcmp(sr_method,'pb-vdsr')
+    fprintf('Evaluating the performance of PB-VDSR\n');
+    out_filename = sprintf('RESULTS/superresolution/x%d/pb-vdsr.csv',mf);
+    out_img_foldername = sprintf('RESULTS/superresolution/x%d/centre_view/pb-vdsr/',mf);
+    out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/pb-vdsr/',mf);
 end
 fprintf('--------------------------------------------------------------\n');
 
@@ -170,10 +179,14 @@ for n = 1:N
     elseif strcmp(sr_method,'bm_pca_rr')
         % Super-resolution using BM+PCA+RR
         SR_LF = bm_pca_rr_parent(LR_LF,mf);
-    elseif strcmp(sr_method,'pblfsr_srcnn')
+    elseif strcmp(sr_method,'pb-srcnn')
         % Super-resolve using principal basis light field super resolution
         % using SRCNN
-        SR_LF = pb_lfsr_srcnn(LR_LF,mf,lf_name);
+        SR_LF = principal_basis_SR(LR_LF,mf,lf_name,'srcnn');
+    elseif strcmp(sr_method,'pb-vdsr')
+        % Super-resolve using principal basis light field super resolution
+        % using SRCNN
+        SR_LF = principal_basis_SR(LR_LF,mf,lf_name,'vdsr');
     end
             
     % Extract the centre view

@@ -12,5 +12,7 @@ temp.mat
 /RESULTS/superresolution/x3/LF/
 /RESULTS/superresolution/x2/LF/
 /RESULTS/superresolution/x4/LF/
-/MATLAB/superresolution/pb_lfsr_srcnn.m
+/MATLAB/superresolution/principal_basis_SR.m
 /REPORT/
+/MATLAB/matrix_completion/low_rank_matrix_completion.m
+/MATLAB/matrix_completion/matrix_completion.m
