@@ -5,7 +5,7 @@ clc; close all; clear all;
 % Configuration
 %--------------------------------------------------------------------------
 mf = 3;
-method = 'bicubic';
+method = 'pb-vdsr';
 lf_name = 'Friends_1';
 
 % Derive the light field filename

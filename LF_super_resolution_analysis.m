@@ -27,6 +27,8 @@ function LF_super_resolution_analysis(sr_method,mf,out_flag)
 %                                  SRCNN to restore the principal basis
 %                   - 'pb-vdsr'  - this method is the proposed method using
 %                                  VDSR to restore the principal basis
+%                   - 'pb-Lab402'- this method is proposed using Lab402 to
+%                                  restore the principal basis
 %
 %        mf: numeric value that stands for the magnification factor that
 %        the method has to super-resolve
@@ -114,7 +116,18 @@ elseif strcmp(sr_method,'pb-vdsr')
     out_filename = sprintf('RESULTS/superresolution/x%d/pb-vdsr.csv',mf);
     out_img_foldername = sprintf('RESULTS/superresolution/x%d/centre_view/pb-vdsr/',mf);
     out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/pb-vdsr/',mf);
+elseif strcmp(sr_method,'pb-lab402')
+    % Initialize the gpu
+    g=gpuDevice(1);
+    reset(g); %GPU reset
+
+    fprintf('Evaluating the performance of PB-Lab402\n');
+    out_filename = sprintf('RESULTS/superresolution/x%d/pb-lab402.csv',mf);
+    out_img_foldername = sprintf('RESULTS/superresolution/x%d/centre_view/pb-lab402/',mf);
+    out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/pb-lab402/',mf);
 end
+
+
 fprintf('--------------------------------------------------------------\n');
 
 % Make sure that the folder containing the images is available
@@ -159,9 +172,13 @@ for n = 1:N
     % Permute the dimensions
     HR_LF = permute(HR_LF,[3,4,5,1,2]);
     
-    % Generate the low-resolution light field
-    LR_LF = lf_downsample(HR_LF,mf);
-    
+    if strcmp(sr_method,'pb-lab402')
+        % Generate the low-resolution light field
+        LR_LF = lf_downsample(HR_LF,mf);
+    else
+        % Generate the low-resolution light field
+        LR_LF = lf_downsample(HR_LF,mf);
+    end        
     % The light field will be restored one sub-aperture image at a time
     % and will not exploit the light field structure
     if strcmp(sr_method,'bicubic')
@@ -185,8 +202,12 @@ for n = 1:N
         SR_LF = principal_basis_SR(LR_LF,mf,lf_name,'srcnn');
     elseif strcmp(sr_method,'pb-vdsr')
         % Super-resolve using principal basis light field super resolution
-        % using SRCNN
+        % using VDSR
         SR_LF = principal_basis_SR(LR_LF,mf,lf_name,'vdsr');
+    elseif strcmp(sr_method,'pb-lab402')
+        % Super-resolve using principal basis light field super-resolution
+        % using lab402 method
+        SR_LF = principal_basis_SR(LR_LF,mf,lf_name,'lab402',[size(HR_LF,1),size(HR_LF,2)]);
     end
             
     % Extract the centre view
