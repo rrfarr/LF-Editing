@@ -17,3 +17,10 @@ temp.mat
 /MATLAB/matrix_completion/low_rank_matrix_completion.m
 /MATLAB/matrix_completion/matrix_completion.m
 /MATLAB/superresolution/lab402/
+/RESULTS/denoising/sig10/LF
+/RESULTS/denoising/sig20/LF
+/RESULTS/denoising/sig30/LF
+/RESULTS/denoising/sig40/LF
+/MATLAB/denoising/BM3D/
+/MATLAB/denoising/VBM4D/
+/RESULTS/denoising/sig50/LF

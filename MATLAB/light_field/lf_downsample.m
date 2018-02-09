@@ -6,9 +6,6 @@ if nargin == 2
     flag = 0;
 end
 
-% Initialize the low-resolution light field
-%LR_LF = zeros(size(HR_LF),'uint8');
-
 for u = 1:size(HR_LF,4)
     for v = 1:size(HR_LF,4)
         % Get the current view
@@ -17,7 +14,14 @@ for u = 1:size(HR_LF,4)
         I = imresize(I,1/mf);
         if flag == 0
             % Rescale I using bicubic interpolation
-            LR_LF(:,:,:,u,v) = imresize(I,[size(HR_LF,1),size(HR_LF,2)]);
+            Ilr = imresize(I,mf);
+            % Crop the interpolated image
+            Ilr = Ilr(1:size(HR_LF,1),1:size(HR_LF,2),:);
+            % This was giving a pixelwise misalignment when the resolution
+            % was not divisible by the magnification factor
+            %LR_LF(:,:,:,u,v) = imresize(I,[size(HR_LF,1),size(HR_LF,2)]);
+            % Put the degraded light field into the tensor
+            LR_LF(:,:,:,u,v) = Ilr;
         else
             LR_LF(:,:,:,u,v) = I;
         end

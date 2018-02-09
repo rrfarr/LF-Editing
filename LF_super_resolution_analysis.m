@@ -172,9 +172,9 @@ for n = 1:N
     % Permute the dimensions
     HR_LF = permute(HR_LF,[3,4,5,1,2]);
     
-    if strcmp(sr_method,'pb-lab402')
+    if strcmp(sr_method,'pb-lab402') || strcmp(sr_method,'bicubic')
         % Generate the low-resolution light field
-        LR_LF = lf_downsample(HR_LF,mf);
+        LR_LF = lf_downsample(HR_LF,mf,1);
     else
         % Generate the low-resolution light field
         LR_LF = lf_downsample(HR_LF,mf);
@@ -183,7 +183,7 @@ for n = 1:N
     % and will not exploit the light field structure
     if strcmp(sr_method,'bicubic')
         % Bicubic interpolation of each sub-aperture image separately
-        SR_LF = lf_bicubic(LR_LF);
+        SR_LF = lf_bicubic(LR_LF,size(HR_LF),mf);
     elseif strcmp(sr_method,'srcnn') || strcmp(sr_method,'lf_srcnn')
         % Super-resolution using LF-SRCNN[1],[2]
         SR_LF = lf_srcnn(LR_LF,mf);
