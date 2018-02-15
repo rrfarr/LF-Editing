@@ -75,7 +75,7 @@ function Y = lfbm5d_read_LF(foldername,U,V)
 for v = 1:V
     for u = 1:U
         % Derive the filename
-        filename = sprintf('%sSAI_%.2d_%.2d.png',foldername,v,u);
+        filename = sprintf('%sSAI_%.2d_%.2d.png',foldername,v-1,u-1);
         I = imread(filename);
         Y(:,:,:,v,u) = I;
     end
@@ -89,7 +89,7 @@ for v = 1:size(X,4)
         % Get the sub-aperture image
         I = X(:,:,:,v,u);
         % Derive the output filename
-        filename = sprintf('%sSAI_%.2d_%.2d.png',foldername,v,u);
+        filename = sprintf('%sSAI_%.2d_%.2d.png',foldername,v-1,u-1);
         % Write the sub-aperture images in the folder
         imwrite(I,filename);
     end
