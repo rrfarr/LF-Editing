@@ -1,4 +1,4 @@
-function pca_basis = learn_pca_basis(D_lrlf, D_hrlf,mat_filename, param)
+function pca_basis = learn_pca_basis(D_lrlf, D_hrlf, param)
 % This script is used to learn the pca basis for the coupled dictionaries.
 % The pca basis are used to project the low-resolution samples on the
 % low-resolution subspace and the high-resolution samples are projected on
@@ -35,29 +35,14 @@ function pca_basis = learn_pca_basis(D_lrlf, D_hrlf,mat_filename, param)
 % at a specified magnification factor since the learned pca basis will be
 % stored in a mat file and loaded from that point onwards.
 
-%clc; close all; clear all;
-%load temp
+fprintf('Learning the PCA basis.\n');
 
-%fprintf('Learning the PCA basis.\n');
-if exist(mat_filename,'file')
-    % Load the matlab file
-    load(mat_filename);
-else
-    % Derive the low-resolution dicitonary
-    %L = D_lrlf;
+% Compute pca dimensionality reduction using all points
+[El, Dl, Ml] = pca(D_lrlf, param.Nl);
 
-    % Derive the high-resolution dictionary
-    %H = D_hrlf;
-
-    % Compute pca dimensionality reduction using all points
-    [El, Dl, Ml] = pca(D_lrlf, param.Nl);
-
-    % Compute pca dimensionality redunction using all points
-    [Eh, Dh, Mh] = pca(D_hrlf, param.Nh);
+% Compute pca dimensionality redunction using all points
+[Eh, Dh, Mh] = pca(D_hrlf, param.Nh);
     
-    % Put the basis and mean into a structre
-    pca_basis.El = El; pca_basis.Ml = Ml; pca_basis.Dl = diag(Dl);
-    pca_basis.Eh = Eh; pca_basis.Mh = Mh; pca_basis.Dh = diag(Dh);
-    
-    save(mat_filename,'pca_basis');
-end
+% Put the basis and mean into a structre
+pca_basis.El = El; pca_basis.Ml = Ml; pca_basis.Dl = diag(Dl);
+pca_basis.Eh = Eh; pca_basis.Mh = Mh; pca_basis.Dh = diag(Dh);  

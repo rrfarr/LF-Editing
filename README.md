@@ -1,6 +1,6 @@
 # Light Field Editing
 
-The Light Field Editing repository was created to include scripts of a number of light field editing algorithms. This repository will include code covering different light field editing tools including light field spatial super-resolution, angular super-resolution, light field inpainting and light field denoising. This repository will include recent algorithms found in literature including methods being developed by our team.
+The Light Field Editing repository was created to include scripts of a number of light field editing algorithms. This repository will include code covering different light field editing tools including light field spatial super-resolution, angular super-resolution, light field inpainting and light field denoising, among others. The aim of this repository is to facilitate reproducable research in the area of Light Field image processing which can be used as a benchmark other algorithms.
 
 Light Field Super-Resolution
 ----------------------------
@@ -14,20 +14,17 @@ Input:
 
 sr_method: specifies the super-resolution algorithm to be simulated. The following is a list of sr_methods that are supported here:
 
-	- 'bicubic':	classical bicubic interpolation of each sub-				aperture image independently
+- 'bicubic':	classical bicubic interpolation of each sub-aperture image independently
 
-	- 'lf_srcnn':	this method applies SRCNN to restore each 				sub-ape[rture image separately from the 					others [1],[2]
+- 'lf_srcnn':	this method applies SRCNN to restore each sub-ape[rture image separately from the others [1],[2]
  
-	- 'pca_rr': 	this method applies the pca_rr published
-                        in [4] - super-resolves patch volumes
+- 'pca_rr': 	this method applies the pca_rr published in [4] - super-resolves patch volumes
 	
-	- 'bm_pca_rr':	this method applies the pm_pca_rr published 				in [4] - super-resolves aligned patch 					volumes.
+- 'bm_pca_rr':	this method applies the pm_pca_rr published in [4] - super-resolves aligned patch volumes.
 
-	- 'pb-srcnn': 	this method is the proposed method using
-                        SRCNN to restore the principal basis
+- 'pb-vdsr': 	this method is the proposed method using VDSR to restore the principal basis. The code is not yet available.
 
-	- 'pb-vdsr': 	this method is the proposed method using VDSR 				to restore the principal basis
-	- 'pb-lab402';    this mehtod is the proposed method using 					lab402 method to restore the principal basis
+- 'pb-lab402';  this mehtod is the proposed method using lab402 method to restore the principal basis
 
 mf: numeric value that stands for the magnification factor that the method has to super-resolve
 
@@ -50,3 +47,5 @@ Installation
 	- INRIA (https://www.irisa.fr/temics/demos/IllumDatasetLF/index.html)
 	- HCI (http://hci-lightfield.iwr.uni-heidelberg.de/)
 	- STANFORD (http://lightfield.stanford.edu/lfs.html)
+
+This system was implemented and tested on Windows 10 OS. or Windows 10 users, we highly recommend installing Bash shell to run Linux commands.
