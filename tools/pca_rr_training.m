@@ -118,7 +118,7 @@ Hs = Eh' * (Hd - repmat(Mh,[1,size(Hd,2)]));
 phi = Hs * Ls' /(Ls*Ls' + lambda*eye(size(Ls,1)));
 
 % Derive the upscaling function psi
-psi = Eh*phi*El';
+%psi = Eh*phi*El';
 %--------------------------------------------------------------------------
 
 if strcmp(method,'pca_rr')
@@ -129,5 +129,8 @@ elseif strcmp(method,'bm_pca_rr')
     out_filename = sprintf('../DATA/superresolution/pca_rr/bm_pca_basis_x%d.mat',mf);   
 end
 
+% Put pca-basis into a structure
+pca_basis.Eh = Eh; pca_basis.El = El; pca_basis.Mh = Mh; pca_basis.Ml = Ml;
+
 % Save the trained model
-save(out_filename,'psi','Ml','Mh');
+save(out_filename,'phi','pca_basis');
