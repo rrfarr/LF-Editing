@@ -18,9 +18,9 @@ param.Nh           = 500;
 lambda             = 1E-6;
 
 if strcmp(method,'pca_rr')
-    param.pca_rr.window_size = 0;
+    param.window_size = 0;
 else
-    param.pca_rr.window_size = 8;
+    param.window_size = 8;
 end
 
 % Load the light fields to be considered for training
@@ -73,14 +73,14 @@ for i = 1:N
     % Generate the required number of patch coordinates
     patch_idx = get_patch_idx(size(HR_LF,1),size(HR_LF,2),param.patch_size,param.Npts);
     
-    if param.pca_rr.window_size == 0
+    if param.window_size == 0
         % Get the high resolution dictionary with no disparity comp.
         Dlf_H = get_dictionary(HR_LF,patch_idx, param.patch_size);
         % Get the low resolution dictionary with no disparity comp.
         Dlf_L = get_dictionary(LR_LF,patch_idx, param.patch_size);
     else
         % Get the coupled dictionaries aligned using block matching
-        [Dlf_H, Dlf_L] = get_dictionary_aligned(LR_LF, HR_LF,patch_idx,param.pca_rr.patch_size, param.pca_rr.window_size); 
+        [Dlf_H, Dlf_L] = get_dictionary_aligned(LR_LF, HR_LF,patch_idx,param.patch_size, param.window_size); 
     end
     
     % Determine the index values where the patch volumes will be stored
