@@ -138,8 +138,8 @@ for n = 1:N
         % Use the BM3d-EPI method
         RQ_LF = LF_bm3d_epi_denoising(LQ_LF,sig);
     elseif strcmp(dn_method,'lfbm5d')
-        % Use the BM3d-EPI method
-        RQ_LF = LF_bm3d_denoising(LQ_LF,sig);
+        % Use the LFBM5D method
+        RQ_LF = LFBM5D_denoising(LQ_LF,sig);
     end
             
     % Extract the centre view
