@@ -54,7 +54,12 @@ end
 N = size(lf_names,2);
 
 fprintf('--------------------------------------------------------------\n');
-if strcmp(dn_method,'bm3d')
+if strcmp(dn_method,'noisy')
+    fprintf('Evaluating the performance of Noisy\n');
+    out_filename = sprintf('RESULTS/denoising/sig%d/noisy.csv',sig);
+    out_img_foldername = sprintf('RESULTS/denoising/sig%d/centre_view/noisy/',sig);
+    out_LF_foldername  = sprintf('RESULTS/denoising/sig%d/LF/noisy/',sig);
+elseif strcmp(dn_method,'bm3d')
     fprintf('Evaluating the performance of BM3D\n');
     out_filename = sprintf('RESULTS/denoising/sig%d/bm3d.csv',sig);
     out_img_foldername = sprintf('RESULTS/denoising/sig%d/centre_view/bm3d/',sig);
@@ -69,6 +74,11 @@ elseif strcmp(dn_method,'bm3d-epi')
     out_filename = sprintf('RESULTS/denoising/sig%d/bm3d-epi.csv',sig);
     out_img_foldername = sprintf('RESULTS/denoising/sig%d/centre_view/bm3d-epi/',sig);
     out_LF_foldername  = sprintf('RESULTS/denoising/sig%d/LF/bm3d-epi/',sig);
+elseif strcmp(dn_method,'lfbm5d')
+    fprintf('Evaluating the performance of LFBM5D\n');
+    out_filename = sprintf('RESULTS/denoising/sig%d/lfbm5d.csv',sig);
+    out_img_foldername = sprintf('RESULTS/denoising/sig%d/centre_view/lfbm5d/',sig);
+    out_LF_foldername  = sprintf('RESULTS/denoising/sig%d/LF/lfbm5d/',sig);
 end
 fprintf('--------------------------------------------------------------\n');
 
@@ -116,7 +126,9 @@ for n = 1:N
     % Degrade the input lighfield using AWGN
     LQ_LF = lf_awgn(HQ_LF,sig);
     
-    if strcmp(dn_method,'bm3d')
+    if strcmp(dn_method,'noisy')
+        RQ_LF = LQ_LF;
+    elseif strcmp(dn_method,'bm3d')
         % Use bm3d denoising
         RQ_LF = LF_bm3d_denoising(LQ_LF,sig);
     elseif strcmp(dn_method,'vbm4d')
@@ -125,6 +137,9 @@ for n = 1:N
     elseif strcmp(dn_method,'bm3d-epi')
         % Use the BM3d-EPI method
         RQ_LF = LF_bm3d_epi_denoising(LQ_LF,sig);
+    elseif strcmp(dn_method,'lfbm5d')
+        % Use the BM3d-EPI method
+        RQ_LF = LF_bm3d_denoising(LQ_LF,sig);
     end
             
     % Extract the centre view
