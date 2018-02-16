@@ -48,11 +48,11 @@ if ~exist(pca_filename,'file')
     
     % Get the url where the file is stored
     if mf == 2
-        %url = 'https://drive.google.com/a/um.edu.mt/uc?id=1dCuj3r0tVIvkXSBltQehXW08vkOdW0iD&export=download';
+        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=0&id=1a5fqm0ffRReIAz0WSNhSKtCfRb60xGmQ&export=download';
     elseif mf == 3
-        %url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=1&id=1IbDxsXJHY_4Z3P-xvC0shejFkMxT_A00&export=download';
+        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=0&id=1NzV01IOX8l36EcZigy64iPldmRmQ6gPi&export=download';
     elseif mf == 4
-        %url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=1&id=1zK4MfqyHEA6JMHtklROE8eqhGxO3pmTj&export=download';
+        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=0&id=1LfbI0TVGbxblNU6mGg0nlk7e9gvPiYLk&export=download';
     end
     % Download the required pca basis
     urlwrite(url,pca_filename);
