@@ -5,7 +5,20 @@ addpath('MATLAB\matconvnet\matlab\');
 %run matconvnet/matlab/vl_setupnn;
 run vl_setupnn
 
-model_filename = sprintf('MATLAB\\superresolution\\srcnn\\mf_%d_model.mat',mf);
+model_filename = sprintf('DATA\\superresolution\\lfsrcnn\\lfsrcnn-model-x%d.mat',mf);
+
+if ~exist(model_filename,'file')
+    if mf == 2
+        url =  'https://drive.google.com/a/um.edu.mt/uc?authuser=0&id=1boaQRfbQ7PYSrisHjgGxbdr_hDC_yN2b&export=download';
+    elseif mf == 3
+        url =  'https://drive.google.com/a/um.edu.mt/uc?authuser=0&id=10oM8wE-apPRzB7AyP6GRXFbDkn6aO0Sz&export=download';
+    elseif mf == 4
+        url =  'https://drive.google.com/a/um.edu.mt/uc?authuser=0&id=1U6QA_aRIo_wKr8Xu5Bzv7wxrIbF3At9l&export=download';
+    end    
+    % Download the required pca basis
+    urlwrite(url,model_filename);
+end
+% Load the model filename
 load(model_filename);
 
 % Test that the convolution function works properly
