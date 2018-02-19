@@ -25,3 +25,5 @@ temp.mat
 /MATLAB/denoising/VBM4D/
 /MATLAB/denoising/LFBM5D/
 /RESULTS/denoising/sig50/LF
+~$SR_results.xlsx
+MATLAB/superresolution/graph-lfsr/

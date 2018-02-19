@@ -20,6 +20,8 @@ function LF_super_resolution_analysis(sr_method,mf,out_flag)
 %                   - 'pca_rr' - this method applies the pca_rr published
 %                                in [4] - super-resolves patch volumes
 %
+%                   - 'graph-lfsr' - uses the graph-based SR method in [5]
+%
 %                   - 'bm_pca_rr' - this method applies the pm_pca_rr
 %                                   published in [4] - super-resolves 
 %                                   patch volumes
@@ -53,7 +55,11 @@ function LF_super_resolution_analysis(sr_method,mf,out_flag)
 % Images using Linear Subspace Projection of Patch-Volumes," in IEEE 
 % Journal on Selected Topics in Signal Processing, vol. 11, no. 7, 
 % pp. 1058-1071, Oct. 2017
-
+%
+% [5] M. Rossi and P. Frossard, "Graph-based light field super-resolution," 
+% 2017 IEEE 19th International Workshop on Multimedia Signal Processing 
+% (MMSP), Luton, 2017, pp. 1-6
+%
 clc; close all;
 
 addpath('MATLAB/');
@@ -125,6 +131,11 @@ elseif strcmp(sr_method,'pb-lab402')
     out_filename = sprintf('RESULTS/superresolution/x%d/pb-lab402.csv',mf);
     out_img_foldername = sprintf('RESULTS/superresolution/x%d/centre_view/pb-lab402/',mf);
     out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/pb-lab402/',mf);
+elseif strcmp(sr_method,'graph-lfsr')
+    fprintf('Evaluating the performance of GRAPH-SR\n');
+    out_filename = sprintf('RESULTS/superresolution/x%d/graph-sr.csv',mf);
+    out_img_foldername = sprintf('RESULTS/superresolution/x%d/centre_view/graph-sr/',mf);
+    out_LF_foldername = sprintf('RESULTS/superresolution/x%d/LF/graph-sr/',mf);
 end
 
 
@@ -208,6 +219,9 @@ for n = 1:N
         % Super-resolve using principal basis light field super-resolution
         % using lab402 method
         SR_LF = principal_basis_SR(LR_LF,mf,lf_name,'lab402',[size(HR_LF,1),size(HR_LF,2)]);
+    elseif strcmp(sr_method,'graph-lfsr')
+        % Super-resoluve using the graph based super-resolution method
+        SR_LF = graph_based_SR(LR_LF,mf);
     end
             
     % Extract the centre view
