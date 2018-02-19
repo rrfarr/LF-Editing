@@ -48,11 +48,14 @@ if ~exist(pca_filename,'file')
     
     % Get the url where the file is stored
     if mf == 2
-        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=0&id=1SP0kGzN7kWRh-ZM2lAI_LXRQB51m2VLf&export=download';
+        %url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=0&id=1SP0kGzN7kWRh-ZM2lAI_LXRQB51m2VLf&export=download';
+        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=0&id=1LOhy-begjsXFad3sReQLpTRvxEEdDjb-&export=download';
     elseif mf == 3
-        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=1&id=1hQH-uIbiDxOIHAWMRRtuErmdM-XWeZTl&export=download';
+        %url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=1&id=1hQH-uIbiDxOIHAWMRRtuErmdM-XWeZTl&export=download';
+        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=0&id=1qyo42A5zVcUSLo5MY6AEfmWzDltoA7UT&export=download';
     elseif mf == 4
-        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=1&id=1uBu01qHx_4quBhUh9OKjVOnrFfuJ0EqW&export=download';
+        %url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=1&id=1uBu01qHx_4quBhUh9OKjVOnrFfuJ0EqW&export=download';
+        url = 'https://drive.google.com/a/um.edu.mt/uc?authuser=0&id=1smQmhKFZFnekrVp9IkDUzJFVaqaS7IYp&export=download';
     end
     % Download the required pca basis
     urlwrite(url,pca_filename);
