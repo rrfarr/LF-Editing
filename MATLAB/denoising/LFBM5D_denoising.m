@@ -50,7 +50,7 @@ if ~exist('MATLAB/denoising/LFBM5D/denoisedLF/','dir')
 end
 
 % Derive the string command to be provided to call bash
-command = sprintf('bash -c "MATLAB/denoising/LFBM5D/LFBM5Ddenoising none %d %d 1 1 row %d 2.7 MATLAB/denoising/LFBM5D/LFNoisyDir/ MATLAB/denoising/LFBM5D/basicLF/ MATLAB/denoising/LFBM5D/denoisedLF/ none 8 18 6 16 4 id sadct haar 0 16 18 6 8 4 dct sadct haar 0 opp 0 MATLAB/denoising/LFBM5D/outputMeasuresLFBM5D.txt"',U,V,sig);
+command = sprintf('bash -c "MATLAB/denoising/LFBM5D/LFBM5Ddenoising none %d %d 1 1 row %d 2.7 MATLAB/denoising/LFBM5D/LFNoisyDir/ MATLAB/denoising/LFBM5D/basicLF/ MATLAB/denoising/LFBM5D/denoisedLF/ none 8 18 6 16 4 id sadct haar 0 16 18 6 8 4 dct sadct haar 0 opp 0 MATLAB/denoising/LFBM5D/outputMeasuresLFBM5D.txt"\n',U,V,sig);
 
 % Launch the command line to compute the denoising
 system(command);

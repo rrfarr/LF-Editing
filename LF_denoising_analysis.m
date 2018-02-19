@@ -94,6 +94,13 @@ end
 
 % Open the file where the results will be stored
 if out_flag
+    while exist(out_filename,'file')
+        if exist(out_filename,'file')
+            out_filename2 = [out_filename(1:end-4),sprintf('%d',randi(1000000)),'.csv'];
+        end
+    	out_filename = out_filename2;
+    end
+    
     fid = fopen(out_filename,'w');
 end
 
@@ -104,6 +111,10 @@ for n = 1:N
     lf_name = lf_names{n};
     
     out_img_filename = [out_img_foldername,lf_name,'.bmp'];
+    
+    if exist(out_img_filename,'file')
+        continue;
+    end
     out_LF_filename  = [out_LF_foldername,lf_name,'.mat'];
     
     % Derive the folder containing the light field
