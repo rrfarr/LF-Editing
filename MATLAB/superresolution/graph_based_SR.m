@@ -79,7 +79,7 @@ warpMode = 'SQ';
     alpha);
 
 % ZGB is the super-resolved light field ...
-
+a = 1;
 
 function Z = graph_based_encoding(X)
 
