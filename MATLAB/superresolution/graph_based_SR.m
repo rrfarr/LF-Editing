@@ -1,4 +1,4 @@
-function SR_LF = graph_based_SR(LR_LF,mf)
+function SR_LF = graph_based_SR(LR_LF,mf,sz)
 % This function is the interface function to use the graph based super
 % resolution of Rossi et al.
 %

@@ -9,7 +9,7 @@ if strcmp(application,'SR')
     % Specify the magnification factors to consider
     mfs = [2,3,4];
     % Specify the algorithms to be compared
-    methods = {'lf_srcnn'};
+    methods = {'pb-lab402'};
     
     for i = 1:size(mfs,2)
         for j = 1:size(methods,2)

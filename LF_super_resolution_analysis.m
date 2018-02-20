@@ -183,7 +183,8 @@ for n = 1:N
     % Permute the dimensions
     HR_LF = permute(HR_LF,[3,4,5,1,2]);
     
-    if strcmp(sr_method,'pb-lab402') || strcmp(sr_method,'bicubic')
+    if strcmp(sr_method,'pb-lab402') || strcmp(sr_method,'bicubic') ...
+            || strcmp(sr_method,'graph-lfsr')
         % Generate the low-resolution light field
         LR_LF = lf_downsample(HR_LF,mf,1);
     else
@@ -221,7 +222,7 @@ for n = 1:N
         SR_LF = principal_basis_SR(LR_LF,mf,lf_name,'lab402',[size(HR_LF,1),size(HR_LF,2)]);
     elseif strcmp(sr_method,'graph-lfsr')
         % Super-resoluve using the graph based super-resolution method
-        SR_LF = graph_based_SR(LR_LF,mf);
+        SR_LF = graph_based_SR(LR_LF,mf,size(HR_LF));
     end
             
     % Extract the centre view
