@@ -78,8 +78,25 @@ warpMode = 'SQ';
     poolSize, ...
     alpha);
 
-% ZGB is the super-resolved light field ...
-a = 1;
+% Encode the light field into a cell array as used in their demo
+SR_LF = graph_based_decoding(ZGB);
+
+function X = graph_based_decoding(Z)
+
+vRes = size(Z,1);
+hRes = size(Z,2);
+
+% Read the views paying attention to STANFORD reference system.
+X = zeros(size(Z{1},1),size(Z{1},2),size(Z{1},3), vRes, hRes);
+for t = 1:1:vRes
+    for s = 1:1:hRes
+        
+        X(:,:,:,t,s) = Z{t, s};
+    
+    end
+end
+X = uint8(X);
+
 
 function Z = graph_based_encoding(X)
 
