@@ -94,7 +94,9 @@ end
 
 % Open the file where the results will be stored
 if out_flag
+    out_filename_st = out_filename;
     while exist(out_filename,'file')
+        out_filename = out_filename_st;
         if exist(out_filename,'file')
             out_filename2 = [out_filename(1:end-4),sprintf('%d',randi(1000000)),'.csv'];
         end
