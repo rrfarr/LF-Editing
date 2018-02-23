@@ -1,4 +1,4 @@
-function Y = LF_bm3d_denoising(X,sig)
+function Y = LF_bm3d_denoising(X)
 % This function computed BM3D to restore the noise from the input light
 % field
 %
@@ -26,14 +26,20 @@ end
 
 % Add the bm3d library to the path
 addpath('MATLAB/denoising/BM3D/');
+addpath('MATLAB/noise_level_estimation/');
 
 for i = 1:size(X,4)
     for j = 1:size(X,5)
         % Extract the noisy image z
         z = double(X(:,:,:,i,j))/255;
         
+        % Estimate the noise variance
+        nsig = NoiseLevel(255*z);
+        
+        nsig = mean(nsig);
+
         % Derive the estimate y
-        [~,y] = CBM3D(1,z,sig);
+        [~,y] = CBM3D(1,z,nsig);
         
         % Put it in the right dynamic range
         y = uint8(y*255);

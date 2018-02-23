@@ -1,9 +1,8 @@
-function Y = LF_vbm4d_denoising(X,sig)
+function Y = LF_vbm4d_denoising(X)
 % This function computed BM3D to restore the noise from the input light
 % field
 %
 
-Y = zeros(size(X));
 % Make sure that the library of bm3d is available
 vbm4d_foldername = 'MATLAB/denoising/VBM4D/';
 
@@ -25,6 +24,7 @@ if ~exist(vbm4d_foldername,'dir')
 end
 
 % Add the bm3d library to the path
+addpath('MATLAB/noise_level_estimation/');
 addpath('MATLAB/denoising/VBM4D/');
 
 profile = 'lc';      % V-BM4D parameter profile
@@ -41,6 +41,14 @@ deflicker = 1;       % Deflickering
                      %  <1 --> enable deflickering
 verbose = 0;         % Verbose mode
 
+% Get centre view
+Ic = X(:,:,:,5,5);
+
+% Estimate the noise variance
+nsig = NoiseLevel(double(Ic));
+        
+nsig = mean(nsig);
+
 % Reshape the lighfield to 4D
 z = reshape(X,[size(X,1),size(X,2),size(X,3),size(X,4)*size(X,5)]);
 
@@ -48,7 +56,7 @@ z = reshape(X,[size(X,1),size(X,2),size(X,3),size(X,4)*size(X,5)]);
 z = double(z)/255;
 
 % Compute vbm4d
-y = vbm4d( z , sig/255, profile, do_wiener, sharpen, deflicker, verbose );
+y = vbm4d( z , nsig/255, profile, do_wiener, sharpen, deflicker, verbose );
 
 % Restore the 5D lightfield
 Y = reshape(y,size(X));
