@@ -81,6 +81,10 @@ warpMode = 'SQ';
 % Encode the light field into a cell array as used in their demo
 SR_LF = graph_based_decoding(ZGB);
 
+% Ensure that the super-resolved light field has the right dimensions
+SR_LF = SR_LF(1:sz(1),1:sz(2),:,:,:);
+
+
 function X = graph_based_decoding(Z)
 
 vRes = size(Z,1);

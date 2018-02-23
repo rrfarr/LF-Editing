@@ -7,9 +7,9 @@ application = 'SR';
 
 if strcmp(application,'SR')
     % Specify the magnification factors to consider
-    mfs = [2,3,4];
+    mfs = [2,4];
     % Specify the algorithms to be compared
-    methods = {'graph-lfsr'};
+    methods = {'pb-vdsr'};
     
     for i = 1:size(mfs,2)
         for j = 1:size(methods,2)

@@ -62,7 +62,9 @@ sift1 = mexDenseSIFT(Ic,cellsize,gridspacing);
 k = 0;
 for i = 1:size(LR_LF,4)
     for j = 1:size(LR_LF,5)
-        if i ~= 5 && j ~= 5
+        if i == 5 && j == 5
+            %-- do nothing
+        else
             %--- Display the progress of the sift-flow computation
             msg = sprintf('  SIFTflow computation: %6.2f%%', k/(size(LR_LF,4)*size(LR_LF,5))*100);
             fprintf('%s',msg);
